@@ -1,11 +1,14 @@
-import logo from './logo.svg';
-import styles from './App.module.css';
+import {  Route } from "@solidjs/router"
+import Login from "../components/Login";
+import register from "../components/Register";
 
 function App() {
   return (
-    <div class={styles.App}>
-      Hello Solid !
-    </div>
+    <>
+      <Route path="/" component={Login} />
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={register} />
+    </>
   );
 }
 
