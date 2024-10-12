@@ -1,13 +1,32 @@
 import { createSignal } from "solid-js";
-import { A } from "@solidjs/router";
+import { useNavigate, A } from "@solidjs/router";
+
+import { createClient } from '@supabase/supabase-js';
 
 const Register = () => {
+    const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_KEY);
+    const navigate = useNavigate();
     const [email, setEmail] = createSignal("");
     const [password, setPassword] = createSignal("");
 
+    const RegisterUser = async (e) => {
+        e.preventDefault();
+        const { data, error } = await supabase.auth.signUp({
+            email: email(),
+            password: password()
+        });
+        if (error) {
+            alert(error.message);
+            return;
+        }
+        if (data) {
+            navigate("/");
+        }
+    }
+
     return (
         <div className="register-section">
-            <form>
+            <form onSubmit={(e)=> RegisterUser(e)}>
                 <h3>Register</h3>
 
                 <label>Email</label>
